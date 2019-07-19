@@ -8,5 +8,16 @@ services:
     - 35729:35729
     restart: "no"
     volumes:
+    - "./decks:/reveal.js/decks"
     - "./index.html:/reveal.js/index.html"
-    - "./custom.css:/reveal.js/enix.css"
+    - "./custom.css:/reveal.js/custom.css"
+    - "./1.html:/reveal.js/1.html"
+    - "./2.html:/reveal.js/2.html"
+    - "./3.html:/reveal.js/3.html"
+    - "./4.html:/reveal.js/4.html"
+    - "./5.html:/reveal.js/5.html"
+    - "./6.html:/reveal.js/6.html"
+    - "./7.html:/reveal.js/7.html"
+    - "./8.html:/reveal.js/8.html"
+    - "./resources:/reveal.js/resources"
+

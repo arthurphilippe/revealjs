@@ -9,6 +9,6 @@ WORKDIR /reveal.js
 RUN npm install
 
 COPY enix/ enix/
-COPY index.html custom.css ./
+COPY decks/ decks/
 
 CMD ["npm", "start"]

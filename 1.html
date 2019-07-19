@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>enix.io - L'orchestration de conteneurs avec Kubernetes</title>
+	<link rel="icon" href="/enix/favicon.ico">
+	<link rel="icon" type="image/png" sizes="32x32" href="/enix/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/enix/favicon-16x16.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/enix/apple-touch-icon.png">
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/white.css">
+	<link rel="stylesheet" href="lib/css/zenburn.css">
+	<link rel="stylesheet" href="enix/enix.css">
+	<link rel="stylesheet" href="custom.css">
+</head>
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<h1>Docker and its stakes</h1>
+				<p>FDI-DVOP Video lesson</p>
+				<img src="resources/enix-etna.jpeg" class="logo etna">
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+							# When you work on an Application
+
+							- <span class="fragment">"readme.md" with **install instructions**</span>
+							- <span class="fragment">maybe even an installation **script**...</span>
+							- <span class="fragment">...for one or two distros</span>
+							- <span class="fragment">non-standard dependencies install</span>
+						</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+							What if we could perform <br> the installation in **just one command**, regardless of the platform we are on?
+						</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+							# Escape dependency hell
+
+							- <span class="fragment">Write a **dockerfile** reusing the steps from you readme or script</span>
+							- <span class="fragment">**Test it** locally</span>
+							- <span class="fragment">If it builds here, **it will work everywhere**</span>
+							- <span class="fragment">It eliminates the "work on my machine!" problem</span>
+						</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+							# Make deployment even faster
+
+							- <span class="fragment">Describe your **stack** in a **compose file**</span>
+							- <span class="fragment">Getting on board is as quick as "git clone" and "docker-compose up".</span>
+						</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+							# Use cases
+
+							- <span class="fragment">**Local** development</span>
+							- <span class="fragment">**Development** and **preprod** servers</span>
+							- <span class="fragment">**Production**</span>
+							- <span class="fragment">CI/CD</span>
+							- <span class="fragment">Artifacts and versioning</span>
+						</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+							# Devs and Ops, before
+
+							- <span class="fragment">Devs giving the code with instructions to build and launch</span>
+							- <span class="fragment">Production environment can be very different</span>
+							- <span class="fragment">Ops don’t always have development environments or it can differ from the devs’</span>
+							- <span class="fragment">Ops have to sort out differences to make it work…</span>
+							- <span class="fragment">... or ask the devs for changes</span>
+							- <span class="fragment">*It all causes friction and delay*</span>
+
+						</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+							# Devs and Ops, After
+
+							- <span class="fragment">Devs can drop a container image or a Compose file</span>
+							- <span class="fragment">Ops can run it in all circumstances</span>
+							- <span class="fragment">Ops still have to adapt it to production...</span>
+							- <span class="fragment">...but they have a working reference point</span>
+							- <span class="fragment">A good image works in dev and production</span>
+							- <span class="fragment">Devs could even make releases themselves</span>
+						</textarea>
+			</section>
+		</div>
+		<img id="enix-progress-animation" class="enix-progress-animation" src="enix/enix-anim-0.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-1.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-2.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-3.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-4.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-5.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-6.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-7.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-8.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-9.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-10.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-11.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-12.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-13.svg">
+	</div>
+	<script src="lib/js/head.min.js"></script>
+	<script src="js/reveal.js"></script>
+	<script>
+		Reveal.initialize({
+			history: true,
+			progress: false,
+			dependencies: [
+				{ src: 'plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+				{ src: 'plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+				{ src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
+			]
+		});
+	</script>
+	<script src="enix/enix-anim.js"></script>
+</body>
+</html>
