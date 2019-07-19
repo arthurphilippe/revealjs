@@ -16,6 +16,42 @@
 <body>
 	<div class="reveal">
 		<div class="slides">
+			<section>
+				<h1>Publishing to the Dockerhub</h1>
+				<p>FDI-DVOP Video lesson</p>
+				<img src="resources/enix-etna.jpeg" class="logo enix">
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					Use "docker login" and provide your Dockerhub credentials.
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Set the tags (for Dockerhub)
+
+					- <span class="fragment">Needs your username as prefix</span>
+					- <span class="fragment">Use "docker tag" to add a tag</span>
+					- <span class="fragment">It doesn't rename your original image.</span>
+					- <span class="fragment">Example: "arthurphilippe/figlet".</span>
+
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Set the tags (for a registry)
+
+					- <span class="fragment">Needs to be prefixed by the registry </span>
+					- <span class="fragment">Example: "localhost:12012/figlet".</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Push it
+
+					- <span class="fragment">"docker push" followed by image tag.</span>
+				</textarea>
+			</section>
 		</div>
 		<img id="enix-progress-animation" class="enix-progress-animation" src="enix/enix-anim-0.svg">
 		<img class="enix-progress-animation" src="enix/enix-anim-1.svg">

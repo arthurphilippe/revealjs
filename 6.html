@@ -16,6 +16,52 @@
 <body>
 	<div class="reveal">
 		<div class="slides">
+			<section>
+				<h1>Dockerfiles, getting started</h1>
+				<p>FDI-DVOP Video lesson</p>
+				<img src="resources/enix-etna.jpeg" class="logo enix">
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Contents
+
+					- <span class="fragment">What's a Dockerfile?</span>
+					- <span class="fragment">How to write one?</span>
+					- <span class="fragment">How to 'run' it?</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# What's a Dockerfile?
+
+					- <span class="fragment">**Build recipe** for a docker **image**</span>
+					- <span class="fragment">Contains **instructions** on how to build an image</span>
+
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Writing one and using it...
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# The caching system
+
+					- <span class="fragment">Remember **image layers**?</span>
+					- <span class="fragment">For **each line** docker will produce a **layer**.</span>
+					- <span class="fragment">If one line is changed, the ones before won't re-run.</span>
+					- <span class="fragment">*For most instructions*, **caching** decisions are **syntactically made**.</span>
+					- <span class="fragment">There's a way for you to ignore cache altogether.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Configuration reference
+
+					https://docs.docker.com/engine/reference/builder/
+				</textarea>
+			</section>
 		</div>
 		<img id="enix-progress-animation" class="enix-progress-animation" src="enix/enix-anim-0.svg">
 		<img class="enix-progress-animation" src="enix/enix-anim-1.svg">

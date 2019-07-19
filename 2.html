@@ -16,6 +16,112 @@
 <body>
 	<div class="reveal">
 		<div class="slides">
+			<section>
+				<h1>Docker and its stakes</h1>
+				<p>FDI-DVOP Video lesson</p>
+				<img src="resources/enix-etna.jpeg" class="logo enix">
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# In this video
+					<span class="fragment">- What are the **differences** between platforms?</span>
+
+					<span class="fragment">- **How to install** docker on each of them.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Platform differences
+
+					- Windows:
+
+						<span class="fragment">- UNIX containers in **Hyper-V VMs**</span>
+
+						<span class="fragment">- Windows containers **natively**</span>
+
+					- MacOS:
+
+						<span class="fragment">- Uses an **Hyperkit VM**</span>
+
+					- Linux:
+
+						<span class="fragment">- natively</span>
+
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Using the CLI
+					<span class="fragment">As all communication goes **through an API**, you can interact with **remote docker engines**, as if they were **local**.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# How to install on Linux
+
+					We recommend following:
+					https://docs.docker.com/install/
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Why not use your package manager?
+
+					<span class="fragment">- Packages **not** always **up-to-date**.</span>
+
+					<span class="fragment">- Custom patches can introduce **critical security bugs**.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Rights management on linux
+
+					<span class="fragment">- Being able to access the docker socket is **equivalent to being "root"**.</span>
+
+					<span class="fragment">- That's why its **reserved for "root"**, by default.</span>
+
+					<span class="fragment">- You can add users to the **"docker" group**.</span>
+
+					<span class="fragment">- Otherwise, prefix your docker commands with "sudo".</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# How to install on macOS
+
+					https://docs.docker.com/docker-for-mac/install/
+
+					<span class="fragment">It will install a tool that enables you to create the aforementioned **Hyperkit VM** and limit its resource use.
+
+					<span class="fragment">Once the VM is up, docker works as if it was running natively.
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# How to install on Windows
+
+					Prerequisites:
+
+					* <span class="fragment"> Windows 10 64 bits: Pro, Enterprise or Education.
+					* <span class="fragment">Virtualization enabled in BIOS.
+
+					<span class="fragment"> https://docs.docker.com/docker-for-windows/install/
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Older Windows versions
+
+					https://docs.docker.com/toolbox/toolbox_install_windows/
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Check your installation
+
+					"docker run hello-world"
+				</textarea>
+			</section>
 		</div>
 		<img id="enix-progress-animation" class="enix-progress-animation" src="enix/enix-anim-0.svg">
 		<img class="enix-progress-animation" src="enix/enix-anim-1.svg">

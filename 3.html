@@ -16,6 +16,114 @@
 <body>
 	<div class="reveal">
 		<div class="slides">
+			<section>
+				<h1>Getting started with containers</h1>
+				<p>FDI-DVOP Video lesson</p>
+				<img src="resources/enix-etna.jpeg" class="logo enix">
+			</section>
+			<section>
+				<img src="resources/container-vm-whatcontainer_2.png" class="logo" style="width:75%">
+			</section>
+			<section>
+				<img src=" resources/container-what-is-container.png" class="logo" style="width:75%">
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Demo of a simple container
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Simple container
+
+					- <span class="fragment">We used one of the **smallest, simplest images** available: busybox.</span>
+					- <span class="fragment">busybox is typically used in **embedded systems** (phones, routers...).</span>
+					- <span class="fragment">We ran a **single process** and echoed hello world.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Getting more use out of containers
+
+					- <span class="fragment">Printing “hello world” seems quite **far from a real use case**.</span>
+					- <span class="fragment">Lets get more realistic by **customizing our container**.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Demo of an interactive container
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Interactive containers
+
+					- <span class="fragment">"-t" allocates a **new TTY**.</span>
+					- <span class="fragment">"-i" lets us **interact** with the container.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Note on the filesystem
+
+					- <span class="fragment">The container **doesn’t share** its **packages** with the host or other containers.</span>
+					- <span class="fragment">Same goes for the rest of the filesystem tree.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Where’s our container?
+
+					- <span class="fragment">**Stopped state** (ps -a)</span>
+					- <span class="fragment">**Exists on disk**, but takes no compute resources</span>
+					- <span class="fragment">It can be **restarted**</span>
+					- <span class="fragment">It can be **saved as an image**</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Can we reuse that container we took time to customize?
+
+					<span class="fragment">We can, but that **doesn't mean we should**.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# What should we do in its stead?
+
+					- <span class="fragment">Always start a **fresh container**.</span>
+					- <span class="fragment">If you need something specific, build a **custom image** for it.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Pets vs. Cattle
+
+					Or **VMs** vs. **Containers**.
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# VMs as some sort of pets
+
+					- <span class="fragment">**Distinct names**</span>
+					- <span class="fragment">**Manual** configuration</span>
+					- <span class="fragment">We do everything to **fix them**.</span>
+					- <span class="fragment">We use them for as **long as possible**.</span>
+					- <span class="fragment">Their configuration **evolves over time**.</span>
+					- <span class="fragment">We are **sad to see them go**.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Containers as some sort of cattle
+
+					- <span class="fragment">**Generated names**</span>
+					- <span class="fragment">**Generic** configuration</span>
+					- <span class="fragment">We dispose of them when they show weakness.</span>
+					- <span class="fragment">We start **new ones** every-time we come back on the project.</span>
+				</textarea>
+			</section>
 		</div>
 		<img id="enix-progress-animation" class="enix-progress-animation" src="enix/enix-anim-0.svg">
 		<img class="enix-progress-animation" src="enix/enix-anim-1.svg">

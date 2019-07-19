@@ -16,6 +16,160 @@
 <body>
 	<div class="reveal">
 		<div class="slides">
+			<section>
+				<h1>Images, an overview</h1>
+				<p>FDI-DVOP Video lesson</p>
+				<img src="resources/enix-etna.jpeg" class="logo enix">
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Contents
+
+					- <span class="fragment">What's an image?</span>
+					- <span class="fragment">What's a layer?</span>
+					- <span class="fragment">Namespaces</span>
+					- <span class="fragment">The Dockerhub</span>
+					- <span class="fragment">Tags</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# What's an image?
+
+					- <span class="fragment">Layers, composed of mutations of either:</span>
+					  - <span class="fragment">Metadata</span>
+					  - <span class="fragment">Files and filesystem entires</span>
+					- <span class="fragment">Layers are meant to be shared between images.</span>
+					- <span class="fragment">Layer sharing is useful to save disk space.</span>
+
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# What do we find in metadata?
+
+					- <span class="fragment">Author of the image</span>
+					- <span class="fragment">Command to run when the image is started in a container</span>
+					- <span class="fragment">Volumes</span>
+					- <span class="fragment">Ports</span>
+					- <span class="fragment">Environment variables</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Example of a node web-app
+
+					- Debian base layer
+					- Packages and configuration files added by IT
+					- NodeJS
+					- Our app’s dependencies
+					- Our app’s code
+					- Our app’s configuration
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Images proprieties
+
+					- Images and layers are read-only.
+					- To *edit* an image, container are started with a copy-on-write filesystem of said image.
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Multiple containers
+
+					![Sharing layers](resources/sharing-layers.jpg)
+					<!-- TODO: Insert image here -->
+
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# How to edit an image?
+
+					- <span class="fragment">We don't.</span>
+					- <span class="fragment">We **create a container** from that image.</span>
+					- <span class="fragment">**Apply mutations** to the image.</span>
+					- <span class="fragment">**Commit them** into a new layer...</span>
+					- <span class="fragment">...effectively **creating an new image**.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# The chicken or the egg?
+
+					- <span class="fragment">Image == **snapshotted container**</span>
+					- <span class="fragment">Container == **instantiated image**</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# At the root of it all
+
+					- <span class="fragment">Special **empty image** called "scratch"</span>
+					- <span class="fragment">Image created from a *tarball* with "docker import"</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Images creation
+
+					- "docker commit"
+					- "docker build"
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Where are images stored
+					- <span class="fragment">Dockerhub</span>
+					- <span class="fragment">Custom registries</span>
+					- <span class="fragment">On your machine</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# How to reference images
+
+					- <span class="fragment">“nginx” refers to the **official** nginx image.</span>
+					- <span class="fragment">“jpetazzo/clock” refers to the “clock” image of the “jpetazzo” user.</span>
+					- <span class="fragment">“localhost:5000/wordpress” refers to the “wordpress" image of a **custom registry**.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Pulling images
+
+					- **Explicitly** : "docker pull"
+					- **Implicitly**, when running or build.
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Tag version references
+
+					- <span class="fragment"> "nginx" == "nginx:latest" == latest image </span>
+					- <span class="fragment"> "debian:jessie" == "jessie" version of debian </span>
+					- <span class="fragment"> "php:7.1" == version 7.1 of php </span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# When to use tag versioning
+
+					- <span class="fragment"> In **production** </span>
+					- <span class="fragment"> To **match versions** with co-workers </span>
+					- <span class="fragment"> To ensure **repeatability** later </span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# When not to
+
+					- <span class="fragment"> When **prototyping**... </span>
+					- <span class="fragment"> ...and need "latest" </span>
+				</textarea>
+			</section>
 		</div>
 		<img id="enix-progress-animation" class="enix-progress-animation" src="enix/enix-anim-0.svg">
 		<img class="enix-progress-animation" src="enix/enix-anim-1.svg">
