@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Better dockerfiles</title>
+	<link rel="icon" href="/enix/favicon.ico">
+	<link rel="icon" type="image/png" sizes="32x32" href="/enix/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/enix/favicon-16x16.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/enix/apple-touch-icon.png">
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/white.css">
+	<link rel="stylesheet" href="lib/css/zenburn.css">
+	<link rel="stylesheet" href="enix/enix.css">
+	<link rel="stylesheet" href="custom.css">
+</head>
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<h1>Better dockerfiles</h1>
+				<p>FDI-DVOP Video lesson</p>
+				<img src="resources/enix-etna.jpeg" class="logo etna">
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Goals and use cases
+
+					- <span class="fragment">Super slim final deployment images</span>
+					- <span class="fragment">Efficient images suited for development</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Improvement vectors
+
+					- Final size:
+					  - <span class="fragment">with less layers,</span>
+					  - <span class="fragment">by better understanding what layers can do.</span>
+					- Time to rebuild:
+					  - <span class="fragment">with properly thought layers.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Cost of optimizing
+
+					- <span class="fragment">Less size == **very slow rebuilds**</span>
+					- <span class="fragment">Fast rebuild == **medium** to **high size**</span>
+					- <span class="fragment">No optimization == **slow** and **heavy**</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# When not to optimize size?
+
+					When image:
+					- <span class="fragment">changes a lot;</span>
+					- <span class="fragment">has very few users;</span>
+					- <span class="fragment">is built and ran on same machine, </span>
+					<span class="fragment">or machine has a very fast uplink anyway.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# When does size become an issue?
+
+					- <span class="fragment">When using **by-the-minute cloud**.</span>
+					- <span class="fragment">When providing a **public image**.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Let's get down to optimizing!
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Why do we have that much layers, again?
+
+					- <span class="fragment">Each line of our dockerfile crates a layer.</span>
+					- <span class="fragment">There are trivial ways to refactor RUN instructions.</span>
+					- <span class="fragment">You can also combine commands sent to RUN using "&&"" and "\".</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# The aim
+
+					**Choosing carefully** the **layers to collapse**, to optimize space and build time.
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Trivial layer refactoring
+
+					**Original** instructions:
+					```dockerfile
+					RUN apt-get install thisthing
+					RUN apt-get install andthatthing andthatotherone
+					RUN apt-get install somemorestuff
+					```
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Trivial layer refactoring
+
+					**Refactored** instructions:
+					```dockerfile
+					RUN apt-get install thisthing andthatthing andthatotherone somemorestuff
+					```
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Refactoring multiple commands
+
+					**Original** instructions:
+					```dockerfile
+					RUN apt-get update
+					RUN apt-get install thisthing
+					```
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Refactoring multiple commands
+
+					**Refactored** instructions:
+					```dockerfile
+					RUN apt-get update \
+					 && apt-get install thisthing
+					```
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Other cases where collapsing is useful
+
+					- <span class="fragment">Removing and cleaning in a **separate layer**</span>
+					- <span class="fragment">`RUN rm file`</span>
+					- <span class="fragment">`RUN chmod a+x file`</span>
+					- <span class="fragment">`RUN chown www:www file`</span>
+					- <span class="fragment">`RUN mv source destination`</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					What happens if you do:
+
+					```dockerfile
+					RUN wget http://.../foo.tar.gz
+					RUN tar -zxf foo.tar.gz
+					RUN chmod +x foo/fooctl
+					RUN mv foo/fooctl /usr/local/bin
+					RUN rm -fr foo for.tar.gz
+					```
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					Files get copied unnecessarily:
+					```dockerfile
+					RUN wget http://.../foo.tar.gz  # New file
+					RUN tar -zxf foo.tar.gz	 # New files
+					RUN chmod +x foo/fooctl	 # Copy
+					RUN mv foo/fooctl /usr/bin  # Copy
+					RUN rm -fr foo for.tar.gz  # No effect
+					```
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					Move, extract & remove in one go:
+					```dockerfile
+					RUN wget http://.../foo.tar.gz \
+					 && tar -zxf foo.tar.gz \
+					 && chmod +x foo/fooctl \
+					 && mv foo/fooctl /usr/local/bin \
+					 && rm -fr foo for.tar.gz
+					```
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Mode change and COPY
+
+					- <span class="fragment">**Rather than changing mode** after a COPY instruction...</span>
+					- <span class="fragment">... set the correct file modes **before having to build**.</span>
+					- <span class="fragment">git **tracks changes** in mode.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Ownership changes and COPY
+
+					Change ownership **on the COPY instruction** directly
+					```dockerfile
+					COPY --chown=1000 some-file .
+					COPY --chown=1000:1000 some-file .
+					COPY --chown=www-data:www-data some-file .
+					```
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Build time optimizations
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Avoid re-installing dependencies
+
+					That's a **classical problem** with docker: what can we do about it?
+
+					<span class="fragment">**Dependencies** should be handled **before** the project code is.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Advantage of cache
+
+					Dockerfile instructions order:
+					- `FROM ...`
+					- **Rare** changes<span class="fragment">: **dependencies**</span>
+					- **Occasional** changes<span class="fragment">: **code**</span>
+					- **Frequent** changes<span class="fragment">: **config**</span>
+					- `CMD ...`
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Bad Dockerfile example
+
+					```dockerfile
+					FROM python
+					WORKDIR /src
+					COPY . .
+					RUN pip install -qr requirements.txt
+					EXPOSE 5000
+					CMD ["python", "app.py"]
+					```
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Fixed Dockerfile example
+
+					```dockerfile
+					FROM python
+					COPY requirements.txt /tmp/requirements.txt
+					RUN pip install -qr /tmp/requirements.txt
+					WORKDIR /src
+					COPY . .
+					EXPOSE 5000
+					CMD ["python", "app.py"]
+					```
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Other ways to reduce image size
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Image squashing
+
+					- <span class="fragment">Experimental squash feature</span>
+					- <span class="fragment">Docker export --> docker import</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# "--squash"
+
+					- <span class="fragment">You have to enable experimental features.</span>
+					- <span class="fragment">It will try and merge your layers.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Exporting then importing
+
+					- <span class="fragment">Gets **rid** of anything **superfluous**.</span>
+					- <span class="fragment">Makes you **lose all metadata**...</span>
+					- <span class="fragment">...but you can still **use overrides**...</span>
+					- <span class="fragment">...or **redeclare metadata** in a Dockerfile.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Conclusion
+
+					- <span class="fragment">The **goal** of containers is to **make life easier**.</span>
+					- <span class="fragment">Optimizations can **help you in deferent contexts**.</span>
+					- <span class="fragment">It all comes down to **what you need**.</span>
+					- <span class="fragment">When starting a project, **it's OK to start simple**</span>
+				</textarea>
+			</section>
+		</div>
+		<img id="enix-progress-animation" class="enix-progress-animation" src="enix/enix-anim-0.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-1.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-2.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-3.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-4.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-5.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-6.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-7.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-8.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-9.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-10.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-11.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-12.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-13.svg">
+	</div>
+	<script src="lib/js/head.min.js"></script>
+	<script src="js/reveal.js"></script>
+	<script>
+		Reveal.initialize({
+			history: true,
+			progress: false,
+			dependencies: [
+				{ src: 'plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+				{ src: 'plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+				{ src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
+			]
+		});
+	</script>
+	<script src="enix/enix-anim.js"></script>
+</body>
+</html>
