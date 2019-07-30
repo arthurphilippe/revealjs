@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Application configuration</title>
+	<link rel="icon" href="/enix/favicon.ico">
+	<link rel="icon" type="image/png" sizes="32x32" href="/enix/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/enix/favicon-16x16.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/enix/apple-touch-icon.png">
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/white.css">
+	<link rel="stylesheet" href="lib/css/zenburn.css">
+	<link rel="stylesheet" href="enix/enix.css">
+	<link rel="stylesheet" href="custom.css">
+</head>
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<h1>Application configuration</h1>
+				<p>FDI-DOKR Video lesson</p>
+				<img src="resources/enix-etna.jpeg" class="logo etna">
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Goals and use cases
+
+					- <span class="fragment">You pretty much **always** have to **pass configuration** to your services.</span>
+					- <span class="fragment">Be them of **your own design** or from **official images**.</span>
+					- <span class="fragment">There is a handful of ways to do so.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Ways to pass configuration
+
+					- <span class="fragment">**Command line** arguments</span>
+					- <span class="fragment">**Environment** variables</span>
+					- <span class="fragment">**Baked-in**</span>
+					- <span class="fragment">In **volume**</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# How to chose one?
+
+					- <span class="fragment">**How complex** is your configuration?</span>
+					- <span class="fragment">What options are **mandatory**?</span>
+					- <span class="fragment">**How frequently** do you have to **update it**?</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Command line
+
+					- <span class="fragment">**Configures** your app on **startup**.</span>
+					- <span class="fragment">Either **parsed** by the **App** or a **entry-point script**.</span>
+					- <span class="fragment">Useful for tool-belt style applications.</span>
+					- <span class="fragment">**Not practical** with **a lot** of mandatory options.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Environment
+
+					- <span class="fragment">**Configures** your app on **startup**.</span>
+					- <span class="fragment">Can have **default values**.</span>
+					- <span class="fragment">Used a lot when configuring **Web services** and **Databases**.</span>
+					- <span class="fragment">Makes for an easy way to **cherrypick parameters**.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Baked-in
+
+					- <span class="fragment">**Configures** your app during build.</span>
+					- <span class="fragment">Makes you **write** the **entire configuration**.</span>
+					- <span class="fragment">Makes you subject to **complex and arbitrary** configurations.</span>
+					- <span class="fragment">Makes for easy storage of **ready-to-run standalone images**.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Volumes
+
+					- <span class="fragment">Makes you write the entire configuration.
+					- Makes you subject to complex and arbitrary configurations.</span>
+					- <span class="fragment">**Configures** your app at container **runtime**.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					- <span class="fragment">App can be **reloaded** on configuration change.</span>
+					- <span class="fragment">Configurations can be **shared** between containers.</span>
+					- <span class="fragment">They can be **managed** by another container.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Backed-in and volume based
+
+					Common with:
+					- <span class="fragment">**reverse-proxies** (Apache, Nginx, HAProxy)</span>
+					- <span class="fragment">applications with **complex configuration** structures, in general</span>
+
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Conclusion
+
+					- <span class="fragment">**Backed-in** and **volume** based: heavy configurations</span>
+					- <span class="fragment">**Environment**: generally for Web services and databases</span>
+					- <span class="fragment">**Command line**: for tools with small configurations</span>
+				</textarea>
+			</section>
+		</div>
+		<img id="enix-progress-animation" class="enix-progress-animation" src="enix/enix-anim-0.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-1.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-2.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-3.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-4.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-5.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-6.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-7.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-8.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-9.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-10.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-11.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-12.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-13.svg">
+	</div>
+	<script src="lib/js/head.min.js"></script>
+	<script src="js/reveal.js"></script>
+	<script>
+		Reveal.initialize({
+			history: true,
+			progress: false,
+			dependencies: [
+				{ src: 'plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+				{ src: 'plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+				{ src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
+			]
+		});
+	</script>
+	<script src="enix/enix-anim.js"></script>
+</body>
+</html>
