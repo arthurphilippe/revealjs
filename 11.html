@@ -37,7 +37,7 @@
 					- <span class="fragment">**Command line** arguments</span>
 					- <span class="fragment">**Environment** variables</span>
 					- <span class="fragment">**Baked-in**</span>
-					- <span class="fragment">In **volume**</span>
+					- <span class="fragment">In **volumes**</span>
 				</textarea>
 			</section>
 			<section data-markdown>
@@ -54,7 +54,7 @@
 					# Command line
 
 					- <span class="fragment">**Configures** your app on **startup**.</span>
-					- <span class="fragment">Either **parsed** by the **App** or a **entry-point script**.</span>
+					- <span class="fragment">Either **parsed** by the **app** or a **entry-point**.</span>
 					- <span class="fragment">Useful for tool-belt style applications.</span>
 					- <span class="fragment">**Not practical** with **a lot** of mandatory options.</span>
 				</textarea>
@@ -65,7 +65,7 @@
 
 					- <span class="fragment">**Configures** your app on **startup**.</span>
 					- <span class="fragment">Can have **default values**.</span>
-					- <span class="fragment">Used a lot when configuring **Web services** and **Databases**.</span>
+					- <span class="fragment">Used a lot when configuring **web services** and **databases**.</span>
 					- <span class="fragment">Makes for an easy way to **cherrypick parameters**.</span>
 				</textarea>
 			</section>
@@ -74,22 +74,16 @@
 					# Baked-in
 
 					- <span class="fragment">**Configures** your app during build.</span>
-					- <span class="fragment">Makes you **write** the **entire configuration**.</span>
+					- <span class="fragment">You have to **write** the **entire configuration**.</span>
 					- <span class="fragment">Makes you subject to **complex and arbitrary** configurations.</span>
-					- <span class="fragment">Makes for easy storage of **ready-to-run standalone images**.</span>
+					- <span class="fragment">Provides easy storage of **ready-to-run standalone images**.</span>
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
 					# Volumes
 
-					- <span class="fragment">Makes you write the entire configuration.
-					- Makes you subject to complex and arbitrary configurations.</span>
 					- <span class="fragment">**Configures** your app at container **runtime**.</span>
-				</textarea>
-			</section>
-			<section data-markdown>
-				<textarea data-template>
 					- <span class="fragment">App can be **reloaded** on configuration change.</span>
 					- <span class="fragment">Configurations can be **shared** between containers.</span>
 					- <span class="fragment">They can be **managed** by another container.</span>
@@ -97,7 +91,7 @@
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Backed-in and volume based
+					# Baked-in and volume based
 
 					Common with:
 					- <span class="fragment">**reverse-proxies** (Apache, Nginx, HAProxy)</span>
@@ -109,7 +103,7 @@
 				<textarea data-template>
 					# Conclusion
 
-					- <span class="fragment">**Backed-in** and **volume** based: heavy configurations</span>
+					- <span class="fragment">**Baked-in** and **volume** based: heavy configurations</span>
 					- <span class="fragment">**Environment**: generally for Web services and databases</span>
 					- <span class="fragment">**Command line**: for tools with small configurations</span>
 				</textarea>

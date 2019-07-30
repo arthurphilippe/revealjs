@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Networking network drivers</title>
+	<link rel="icon" href="/enix/favicon.ico">
+	<link rel="icon" type="image/png" sizes="32x32" href="/enix/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/enix/favicon-16x16.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/enix/apple-touch-icon.png">
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/white.css">
+	<link rel="stylesheet" href="lib/css/zenburn.css">
+	<link rel="stylesheet" href="enix/enix.css">
+	<link rel="stylesheet" href="custom.css">
+</head>
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<h1>Networking network drivers</h1>
+				<p>FDI-DOKR Video lesson</p>
+				<img src="resources/enix-etna.jpeg" class="logo etna">
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Available drivers
+
+					- <span class="fragment">bridge</span>
+					- <span class="fragment">none</span>
+					- <span class="fragment">host</span>
+					- <span class="fragment">container</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Select a driver
+
+					```bash
+					docker run --net ..."
+					```
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Bridge driver
+
+					```bash
+					docker run --net bridge"
+					```
+					- <span class="fragment">Default driver, gives a virtual "eth0" interface</span>
+					- <span class="fragment">Connected to the docker bridge</span>
+					- <span class="fragment">On the "172.17.0.0/16" private subnet</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Null driver
+
+					```bash
+					docker run --net null"
+					```
+					- <span class="fragment">Only has access to a loopback</span>
+					- <span class="fragment">Is completely isolated</span>
+					- <span class="fragment">Useful for untrusted workloads</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Host driver
+
+					```bash
+					docker run --net host"
+					```
+					- <span class="fragment">Direct access to the host's interfaces</span>
+					- <span class="fragment">It can bind to anything</span>
+					- <span class="fragment">Native performance</span>
+					- <span class="fragment">Useful for untrusted workloads</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Container IP address
+
+					```bash
+					docker inspect --format '{{ .NetworkSettings.IPAddress }}' yourContainerID
+					ping yourContainerIPAddress
+					```
+				</textarea>
+			</section>
+		</div>
+		<img id="enix-progress-animation" class="enix-progress-animation" src="enix/enix-anim-0.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-1.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-2.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-3.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-4.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-5.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-6.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-7.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-8.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-9.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-10.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-11.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-12.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-13.svg">
+	</div>
+	<script src="lib/js/head.min.js"></script>
+	<script src="js/reveal.js"></script>
+	<script>
+		Reveal.initialize({
+			history: true,
+			progress: false,
+			dependencies: [
+				{ src: 'plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+				{ src: 'plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+				{ src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
+			]
+		});
+	</script>
+	<script src="enix/enix-anim.js"></script>
+</body>
+</html>

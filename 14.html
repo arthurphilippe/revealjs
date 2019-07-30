@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Networking basics</title>
+	<link rel="icon" href="/enix/favicon.ico">
+	<link rel="icon" type="image/png" sizes="32x32" href="/enix/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/enix/favicon-16x16.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/enix/apple-touch-icon.png">
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/white.css">
+	<link rel="stylesheet" href="lib/css/zenburn.css">
+	<link rel="stylesheet" href="enix/enix.css">
+	<link rel="stylesheet" href="custom.css">
+</head>
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<h1>Networking basics</h1>
+				<p>FDI-DOKR Video lesson</p>
+				<img src="resources/enix-etna.jpeg" class="logo etna">
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Goals and use cases
+
+					- <span class="fragment">Automatic and manual **port mapping**</span>
+					- <span class="fragment">Container **network drivers**</span>
+					- <span class="fragment">Container **network model**</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Publish all ports
+
+					```bash
+					docker run --name web-server -dP nginx
+					```
+
+					- <span class="fragment">**Starts** an Nginx container</span>
+					- <span class="fragment">"-P" **publishes all its ports**.</span>
+					- <span class="fragment">*How do we connect to it now?*</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# How do we connect to the server?
+
+					```bash
+					docker port web-server
+					```
+					- <span class="fragment">Gives us what **ports are mapped**.</span>
+					- <span class="fragment">We can use the returned port to **connect** to our sever.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# How does Docker knows what ports to map?
+
+					- <span class="fragment">Image **metadata**</span>
+					- <span class="fragment">"PORT" instruction</span>
+
+
+					<span class="fragment">
+
+					```bash
+					docker inspect --format '{{.Config.ExposedPorts}}' nginx
+
+					docker history nginx
+					```
+
+					</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Manual port allocation
+
+					```bash
+					docker run -d -p 80:80 nginx
+					docker run -d -p 8000:80 nginx
+					docker run -d -p 8080:80 -p 8888:80 nginx
+					```
+
+					<span class="fragment">port-on-**host**:port-on-**container**</span>
+
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Container IP address
+
+					```bash
+					docker inspect --format '{{ .NetworkSettings.IPAddress }}' containerID
+
+					ping containerIPAddress
+					```
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Conclusion
+
+					- <span class="fragment">Map ports manually and automatically</span>
+					- <span class="fragment">You could let docker map ports and script around it</span>
+					- <span class="fragment">Or do the mapping yourself</span>
+					- <span class="fragment">Get container IP addresses</span>
+				</textarea>
+			</section>
+		</div>
+		<img id="enix-progress-animation" class="enix-progress-animation" src="enix/enix-anim-0.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-1.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-2.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-3.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-4.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-5.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-6.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-7.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-8.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-9.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-10.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-11.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-12.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-13.svg">
+	</div>
+	<script src="lib/js/head.min.js"></script>
+	<script src="js/reveal.js"></script>
+	<script>
+		Reveal.initialize({
+			history: true,
+			progress: false,
+			dependencies: [
+				{ src: 'plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+				{ src: 'plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+				{ src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
+			]
+		});
+	</script>
+	<script src="enix/enix-anim.js"></script>
+</body>
+</html>
