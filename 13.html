@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Networking network drivers</title>
+	<title>Networking basics</title>
 	<link rel="icon" href="/enix/favicon.ico">
 	<link rel="icon" type="image/png" sizes="32x32" href="/enix/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/enix/favicon-16x16.png">
@@ -17,64 +17,74 @@
 	<div class="reveal">
 		<div class="slides">
 			<section>
-				<h1>Networking network drivers</h1>
+				<h1>Networking basics</h1>
 				<p>FDI-DOKR Video lesson</p>
 				<img src="resources/enix-etna.jpeg" class="logo etna">
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Available drivers
+					# Goals and use cases
 
-					- <span class="fragment">bridge</span>
-					- <span class="fragment">none</span>
-					- <span class="fragment">host</span>
-					- <span class="fragment">container</span>
+					- <span class="fragment">Automatic and manual **port mapping**</span>
+					- <span class="fragment">Container **network drivers**</span>
+					- <span class="fragment">Container **network model**</span>
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Select a driver
+					# Publish all ports
 
 					```bash
-					docker run --net ..."
+					docker run --name web-server -dP nginx
 					```
+
+					- <span class="fragment">**Starts** an Nginx container</span>
+					- <span class="fragment">"-P" **publishes all its ports**.</span>
+					- <span class="fragment">*How do we connect to it now?*</span>
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Bridge driver
+					# How do we connect to the server?
 
 					```bash
-					docker run --net bridge"
+					docker port web-server
 					```
-					- <span class="fragment">Default driver, gives a virtual "eth0" interface</span>
-					- <span class="fragment">Connected to the docker bridge</span>
-					- <span class="fragment">On the "172.17.0.0/16" private subnet</span>
+					- <span class="fragment">Gives us what **ports are mapped**.</span>
+					- <span class="fragment">We can use the returned port to **connect** to our sever.</span>
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Null driver
+					# How does Docker knows what ports to map?
+
+					- <span class="fragment">Image **metadata**</span>
+					- <span class="fragment">"PORT" instruction</span>
+
+
+					<span class="fragment">
 
 					```bash
-					docker run --net null"
+					docker inspect --format '{{.Config.ExposedPorts}}' nginx
+
+					docker history nginx
 					```
-					- <span class="fragment">Only has access to a loopback</span>
-					- <span class="fragment">Is completely isolated</span>
-					- <span class="fragment">Useful for untrusted workloads</span>
+
+					</span>
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Host driver
+					# Manual port allocation
 
 					```bash
-					docker run --net host"
+					docker run -d -p 80:80 nginx
+					docker run -d -p 8000:80 nginx
+					docker run -d -p 8080:80 -p 8888:80 nginx
 					```
-					- <span class="fragment">Direct access to the host's interfaces</span>
-					- <span class="fragment">It can bind to anything</span>
-					- <span class="fragment">Native performance</span>
-					- <span class="fragment">Useful for untrusted workloads</span>
+
+					<span class="fragment">port-on-**host**:port-on-**container**</span>
+
 				</textarea>
 			</section>
 			<section data-markdown>
@@ -82,9 +92,20 @@
 					# Container IP address
 
 					```bash
-					docker inspect --format '{{ .NetworkSettings.IPAddress }}' yourContainerID
-					ping yourContainerIPAddress
+					docker inspect --format '{{ .NetworkSettings.IPAddress }}' containerID
+
+					ping containerIPAddress
 					```
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Conclusion
+
+					- <span class="fragment">Map ports manually and automatically</span>
+					- <span class="fragment">You could let docker map ports and script around it</span>
+					- <span class="fragment">Or do the mapping yourself</span>
+					- <span class="fragment">Get container IP addresses</span>
 				</textarea>
 			</section>
 		</div>

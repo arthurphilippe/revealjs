@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Networking network drivers</title>
+	<title>Labels</title>
 	<link rel="icon" href="/enix/favicon.ico">
 	<link rel="icon" type="image/png" sizes="32x32" href="/enix/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/enix/favicon-16x16.png">
@@ -17,84 +17,91 @@
 	<div class="reveal">
 		<div class="slides">
 			<section>
-				<h1>Networking network drivers</h1>
+				<h1>Labels</h1>
 				<p>FDI-DOKR Video lesson</p>
 				<img src="resources/enix-etna.jpeg" class="logo etna">
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Available drivers
+					# What are labels?
 
-					- <span class="fragment">bridge</span>
-					- <span class="fragment">none</span>
-					- <span class="fragment">host</span>
-					- <span class="fragment">container</span>
+					- <span class="fragment">**Arbitrary metadata** attachment on docker objects</span>
+					- <span class="fragment">**Key-value** pairs</span>
+					- <span class="fragment">**Specified** on container creation</span>
+					- <span class="fragment">**Inherited** from images</span>
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Select a driver
+					# What are they for?
+
+					- <span class="fragment">Organization</span>
+					- <span class="fragment">Licensing</span>
+					- <span class="fragment">Scripting and automation</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Automation
+
+					- <span class="fragment">HTTP vhost of a web service</span>
+					- <span class="fragment">Backup schedule</span>
+					- <span class="fragment">Ownership/maintainer/who to contact in case of outage.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Adding labels to containers
 
 					```bash
-					docker run --net ...
+					docker run -d -l owner=alice nginx
+					docker run -d -l owner=bob nginx
+					docker run -d -l owner nginx
 					```
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Bridge driver
+					# Querying
 
 					```bash
-					docker run --net bridge"
+					docker inspect $(docker ps -lq) | grep -A3 Labels
 					```
-					- <span class="fragment">**Default** driver, gives a virtual "eth0" interface</span>
-					- <span class="fragment">Connected to the **docker bridge**</span>
-					- <span class="fragment">On the "172.17.0.0/16" **private subnet**</span>
+					```json
+					"Labels": {
+						"maintainer": "NGINX Docker Maintainers docker-maint@nginx.com",
+						"owner": ""
+					    },
+					```
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Null driver
+					# Querying with format
 
 					```bash
-					docker run --net null"
+					docker inspect $(docker ps -q) --format 'OWNER={{.Config.Labels.owner}}'
 					```
-					- <span class="fragment">**Only** has access to a **loopback**</span>
-					- <span class="fragment">Is **completely isolated**</span>
-					- <span class="fragment">Useful for **untrusted workloads**</span>
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Host driver
+					# Filter containers
 
 					```bash
-					docker run --net host"
+					docker ps --filter label=owner
+					docker ps --filter label=owner=alice
+					docker ps --filter label=owner=alice -q
 					```
-					- <span class="fragment">**Direct access** to the host's interfaces</span>
-					- <span class="fragment">Can **bind to anything**</span>
-					- <span class="fragment">**Native performance**</span>
-				</textarea>
-			</section>
-			<section data-markdown>
-				<textarea data-template>
-					# Container driver
-
-					```bash
-					docker run --net container:id..."
-					```
-					- <span class="fragment">**Reuses the network stack** of specified container.</span>
-					- <span class="fragment">**Shares** interfaces, IP addresses, routes, IPTables, etc.</span>
-					- <span class="fragment">Even **loopbacks** are shared.</span>
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
 					# Conclusion
 
-					- <span class="fragment">Docker provides drivers for **various uses cases**.</span>
-					- <span class="fragment">**Plugins** can extend what you can do with drivers.</span>
-					- <span class="fragment">Always **refer to the docs** for further details.</span>
+					- <span class="fragment">How to use labels.</span>
+					- <span class="fragment">What to do with them.</span>
+					- <span class="fragment">Note that labels aren't limited to images and containers.</span>
 				</textarea>
 			</section>
 		</div>
