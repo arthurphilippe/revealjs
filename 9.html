@@ -25,19 +25,16 @@
 				<textarea data-template>
 					# Goals and use cases
 
-					- <span class="fragment">Super slim final deployment images</span>
-					- <span class="fragment">Efficient images suited for development</span>
+					- <span class="fragment">Super slim final **deployment images**</span>
+					- <span class="fragment">Efficient images **suited for development**</span>
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
 					# Improvement vectors
 
-					- Final size:
-					  - <span class="fragment">with less layers,</span>
-					  - <span class="fragment">by better understanding what layers can do.</span>
-					- Time to rebuild:
-					  - <span class="fragment">with properly thought layers.</span>
+					- Final size
+					- Time to rebuild
 				</textarea>
 			</section>
 			<section data-markdown>
@@ -113,28 +110,6 @@
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Refactoring multiple commands
-
-					**Original** instructions:
-					```dockerfile
-					RUN apt-get update
-					RUN apt-get install thisthing
-					```
-				</textarea>
-			</section>
-			<section data-markdown>
-				<textarea data-template>
-					# Refactoring multiple commands
-
-					**Refactored** instructions:
-					```dockerfile
-					RUN apt-get update \
-					 && apt-get install thisthing
-					```
-				</textarea>
-			</section>
-			<section data-markdown>
-				<textarea data-template>
 					# Other cases where collapsing is useful
 
 					- <span class="fragment">Removing and cleaning in a **separate layer**</span>
@@ -187,7 +162,7 @@
 
 					- <span class="fragment">**Rather than changing mode** after a COPY instruction...</span>
 					- <span class="fragment">... set the correct file modes **before having to build**.</span>
-					- <span class="fragment">git **tracks changes** in mode.</span>
+					- <span class="fragment">FYI git **tracks changes** in mode.</span>
 				</textarea>
 			</section>
 			<section data-markdown>
@@ -276,12 +251,25 @@
 
 					- <span class="fragment">You have to enable experimental features.</span>
 					- <span class="fragment">It will try and merge your layers.</span>
+					- <span class="fragment">Could be harder to trouble shoot.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# "--squash" on MacOS
+
+					- <span class="fragment">Where to enable?</span>
+					- <span class="fragment">How it works?</span>
+					- <span class="fragment">Where it would shine?</span>
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
 					# Exporting then importing
 
+					```bash
+					docker export ... | docker import ...
+					```
 					- <span class="fragment">Gets **rid** of anything **superfluous**.</span>
 					- <span class="fragment">Makes you **lose all metadata**...</span>
 					- <span class="fragment">...but you can still **use overrides**...</span>

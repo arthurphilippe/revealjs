@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Container network drivers</title>
+	<title>Container network model</title>
 	<link rel="icon" href="/enix/favicon.ico">
 	<link rel="icon" type="image/png" sizes="32x32" href="/enix/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/enix/favicon-16x16.png">
@@ -17,83 +17,85 @@
 	<div class="reveal">
 		<div class="slides">
 			<section>
-				<h1>Container network drivers</h1>
+				<h1>Container stacks with docker-compose</h1>
 				<p>FDI-DOKR Video lesson</p>
 				<img src="resources/enix-etna.jpeg" class="logo etna">
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Available drivers
+					# What's a container network?
 
-					- <span class="fragment">bridge</span>
-					- <span class="fragment">none</span>
-					- <span class="fragment">host</span>
-					- <span class="fragment">container</span>
+					- <span class="fragment">**Virtual switch**</span>
+					- <span class="fragment">Can be **local** or **span across engines**</span>
+					- <span class="fragment">Has a **subnet**</span>
+					- <span class="fragment">**Allocates IP addresses** automatically</span>
+					- <span class="fragment">**Containers can be named** on the network</span>
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Select a driver
+					<img src="resources/bridge1.png" class="logo" width="45%">
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					<img src="resources/bridge2.png" class="logo" width="65%">
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					<img src="resources/bridge3.png" class="logo" width="65%">
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Demo: creating a network
 
 					```bash
-					docker run --net ...
+					docker network create ...
+
+					docker run --net ... --name ...
 					```
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Bridge driver
+					# Network aliases
 
 					```bash
-					docker run --net bridge
+					docker run --net-alias ...
 					```
-					- <span class="fragment">**Default** driver, gives a virtual "eth0" interface</span>
-					- <span class="fragment">Connected to the **docker bridge**</span>
-					- <span class="fragment">On the "172.17.0.0/16" **private subnet**</span>
+					- <span class="fragment">You **can't share** the same name between containers.</span>
+					- <span class="fragment">Even if they're in **different networks**.</span>
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# None driver
-
-					```bash
-					docker run --net none
-					```
-					- <span class="fragment">**Only** has access to a **loopback**</span>
-					- <span class="fragment">Is **completely isolated**</span>
-					- <span class="fragment">Useful for **untrusted workloads**</span>
+					# Demo: using aliases
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Host driver
-
-					```bash
-					docker run --net host
-					```
-					- <span class="fragment">**Direct access** to the host's interfaces</span>
-					- <span class="fragment">Can **bind to anything**</span>
-					- <span class="fragment">**Native performance**</span>
+					# Demo: connecting after the fact
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Container driver
+					# Customize your networks
 
-					```bash
-					docker run --net container:id..."
-					```
-					- <span class="fragment">**Reuses the network stack** of specified container.</span>
-					- <span class="fragment">**Shares** interfaces, IP addresses, routes, IPTables, etc.</span>
-					- <span class="fragment">Even **loopbacks** are shared.</span>
+					- <span class="fragment">"--internal" (no default gateway)</span>
+					- <span class="fragment">"--gateway" (set the gw)</span>
+					- <span class="fragment">"--subnet" (in CIDR)</span>
+					- <span class="fragment">"--ip-range" (addresses to allocate)</span>
+					- <span class="fragment">"--aux-address" (reserve addresses)</span>
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
 					# Conclusion
 
-					- <span class="fragment">Docker provides drivers for **various uses cases**.</span>
-					- <span class="fragment">**Plugins** can extend what you can do with drivers.</span>
+					- <span class="fragment">How to use docker networks.</span>
+					- <span class="fragment">Can be used to separate our container stacks.</span>
 					- <span class="fragment">Always **refer to the docs** for further details.</span>
 				</textarea>
 			</section>

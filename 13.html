@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Networking basics</title>
+	<title>Port Mapping</title>
 	<link rel="icon" href="/enix/favicon.ico">
 	<link rel="icon" type="image/png" sizes="32x32" href="/enix/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/enix/favicon-16x16.png">
@@ -17,18 +17,9 @@
 	<div class="reveal">
 		<div class="slides">
 			<section>
-				<h1>Networking basics</h1>
+				<h1>Port Mapping</h1>
 				<p>FDI-DOKR Video lesson</p>
 				<img src="resources/enix-etna.jpeg" class="logo etna">
-			</section>
-			<section data-markdown>
-				<textarea data-template>
-					# Goals and use cases
-
-					- <span class="fragment">Automatic and manual **port mapping**</span>
-					- <span class="fragment">Container **network drivers**</span>
-					- <span class="fragment">Container **network model**</span>
-				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
@@ -56,11 +47,9 @@
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# How does Docker knows what ports to map?
+					# How does Docker know what ports to map?
 
 					- <span class="fragment">Image **metadata**</span>
-					- <span class="fragment">"PORT" instruction</span>
-
 
 					<span class="fragment">
 
@@ -93,8 +82,6 @@
 
 					```bash
 					docker inspect --format '{{ .NetworkSettings.IPAddress }}' containerID
-
-					ping containerIPAddress
 					```
 				</textarea>
 			</section>

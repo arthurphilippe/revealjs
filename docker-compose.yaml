@@ -21,6 +21,8 @@ services:
       - "./9.html:/reveal.js/9.html"
       - "./10.html:/reveal.js/10.html"
       - "./11.html:/reveal.js/11.html"
+      - "./12.html:/reveal.js/12.html"
+      - "./13.html:/reveal.js/13.html"
       - "./14.html:/reveal.js/14.html"
       - "./15.html:/reveal.js/15.html"
       - "./resources:/reveal.js/resources"
