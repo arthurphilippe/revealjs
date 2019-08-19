@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Container network model</title>
+	<link rel="icon" href="/enix/favicon.ico">
+	<link rel="icon" type="image/png" sizes="32x32" href="/enix/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/enix/favicon-16x16.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/enix/apple-touch-icon.png">
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/white.css">
+	<link rel="stylesheet" href="lib/css/zenburn.css">
+	<link rel="stylesheet" href="enix/enix.css">
+	<link rel="stylesheet" href="custom.css">
+</head>
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<h1>Debugging containers</h1>
+				<p>FDI-DOKR Video lesson</p>
+				<img src="resources/enix-etna.jpeg" class="logo etna">
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Goals
+
+					With containers and VMs likewise, there are cases where we need to intervene by:
+					- <span class="fragment">getting into a **shell**,</span>
+					- <span class="fragment">checking the **filesystem** directly.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# When a shell is not required
+
+					With or without a perfect development system, we should rarely need to log into a container using a shell.
+					- <span class="fragment">**Packages** installation: in images </span>
+					- <span class="fragment">**Configuration**: in images, at startup or using volumes</span>
+					- <span class="fragment">**Logs**: collected by docker engine or in a volume</span>
+					- <span class="fragment">**Processes**: accessible from the host</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Accessing processes from the host
+
+					Note: only works on **Linux**.
+
+					```bash
+					ps faux
+					```
+
+					You can then use tools like `lsof`, `strace` or `gdb` to analyse them.
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# If you need a shell anyway
+
+					```bash
+					docker exec -it your_container sh
+					docker exec -it your_container bash
+					```
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# It won't work if
+
+					- <span class="fragment">The tools is **not installed** on the container.</span>
+					- <span class="fragment">The container has **stopped** or **crashed**.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Why couldn't we SSH into a crashed container?
+
+					- <span class="fragment">Crashed containers are **solely storage**.</span>
+					- <span class="fragment">You **cannot SSH** into mass storage.</span>
+					- <span class="fragment">You need to **spin the drive** up into a machine.</span>
+					- <span class="fragment">The **same goes** for **containers**.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Accessing the container anyway
+
+					- <span class="fragment">`docker start`?</span>
+					- <span class="fragment">`docker commit your_container_id debugimage`</span>
+					- <span class="fragment">`docker run -it --entrypoint sh debugimage`</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Other ways to debug our container
+
+					*Demo*
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Dumping it all
+
+					```
+					docker export container_id | tar tv
+					```
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Conclusion
+
+					- <span class="fragment">Debug started containers with a shell.</span>
+					- <span class="fragment">Debug stopped containers with a shell.</span>
+					- <span class="fragment">Interact with a dead container's FS.</span>
+				</textarea>
+			</section>
+		</div>
+		<img id="enix-progress-animation" class="enix-progress-animation" src="enix/enix-anim-0.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-1.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-2.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-3.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-4.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-5.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-6.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-7.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-8.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-9.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-10.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-11.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-12.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-13.svg">
+	</div>
+	<script src="lib/js/head.min.js"></script>
+	<script src="js/reveal.js"></script>
+	<script>
+		Reveal.initialize({
+			history: true,
+			progress: false,
+			dependencies: [
+				{ src: 'plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+				{ src: 'plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+				{ src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
+			]
+		});
+	</script>
+	<script src="enix/enix-anim.js"></script>
+</body>
+</html>
