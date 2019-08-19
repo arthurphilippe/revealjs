@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Local development workflow</title>
+	<link rel="icon" href="/enix/favicon.ico">
+	<link rel="icon" type="image/png" sizes="32x32" href="/enix/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/enix/favicon-16x16.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/enix/apple-touch-icon.png">
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/white.css">
+	<link rel="stylesheet" href="lib/css/zenburn.css">
+	<link rel="stylesheet" href="enix/enix.css">
+	<link rel="stylesheet" href="custom.css">
+</head>
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<h1>Local development workflow</h1>
+				<p>FDI-DOKR Video lesson</p>
+				<img src="resources/enix-etna.jpeg" class="logo etna">
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Goals
+
+					- <span class="fragment">**Share code** between **container** and **host**.</span>
+					- <span class="fragment">Use a simple **local dev. workflow**.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Issues
+
+					- <span class="fragment">"Works on my machine"</span>
+					- <span class="fragment">"Not the same version"</span>
+					- <span class="fragment">"Missing dependency"</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Lets try working on a project!
+
+					*Demo*
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Editing the code
+
+					Option 1:
+					- **Edit** the code on our machine.
+					- **Rebuild** the image.
+					- **Run** it again.
+
+					<span class="fragment">That's a **classical** workflow.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Editing the code
+
+					Option 2:
+					- **Enter** the container. (`docker exec`)
+					- **Install** an editor.
+					- **Edit** the code from here.
+
+					<span class="fragment">Somehow, does not feel right...</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Editing the code
+
+					Option 3:
+					- **Enter** the container. (`docker exec`)
+					- **Install** an editor.
+					- **Edit** the code from here.
+
+					<span class="fragment">The option we are going to pursue!</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Creating our volume
+
+					*Demo*
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Understanding volumes
+
+					- Volumes **are not** copying or syncing files between host and container.
+					- Volumes are **bind mounts**...
+					- ...which have similar behavior to symlinks.
+					- Files accessible from either side are the **exact same** instances.
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Conclusion
+
+					<span class="fragment">**Basics** of volumes</span>
+					<span class="fragment">How they might be used for **local development**</span>
+				</textarea>
+			</section>
+		</div>
+		<img id="enix-progress-animation" class="enix-progress-animation" src="enix/enix-anim-0.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-1.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-2.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-3.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-4.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-5.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-6.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-7.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-8.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-9.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-10.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-11.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-12.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-13.svg">
+	</div>
+	<script src="lib/js/head.min.js"></script>
+	<script src="js/reveal.js"></script>
+	<script>
+		Reveal.initialize({
+			history: true,
+			progress: false,
+			dependencies: [
+				{ src: 'plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+				{ src: 'plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+				{ src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
+			]
+		});
+	</script>
+	<script src="enix/enix-anim.js"></script>
+</body>
+</html>
