@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Volumes</title>
+	<title>Managing hosts, Docker Machine</title>
 	<link rel="icon" href="/enix/favicon.ico">
 	<link rel="icon" type="image/png" sizes="32x32" href="/enix/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/enix/favicon-16x16.png">
@@ -17,49 +17,73 @@
 	<div class="reveal">
 		<div class="slides">
 			<section>
-				<h1>Volumes</h1>
+				<h1>Managing hosts, Docker Machine</h1>
 				<p>FDI-DOKR Video lesson</p>
 				<img src="resources/enix-etna.jpeg" class="logo etna">
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Goals
+					# Docker Machine?
 
-					- <span class="fragment">**Understand** volume use cases.</span>
-					- <span class="fragment">**Create** volumes in containers.</span>
-					- <span class="fragment">**Share** volumes **across containers**.</span>
-					- <span class="fragment">**Share** filesystem entries from the **host to containers**.</span>
+					- <span class="fragment">Tool to **provision** and **manage** Docker hosts.</span>
+					- <span class="fragment">**Automates** the creation of VMs.</span>
+					- <span class="fragment">**Configures** existing machines via SSH.</span>
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Declare a volume in a Dockerfile
+					# Preparing a host: workflow
 
-					```dockerfile
-					VOLUME /uploads
-					```
-
-					<span class="fragment">What does this actually mean for our directory?</span>
+					- <span class="fragment">**Prepare** the host's environment. (Setup VirtualBox, get cloud credentials)</span>
+					- <span class="fragment">**Create** host with "docker-machine create"</span>
+					- <span class="fragment">Make the CLI use the machine you want using:</span>
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# What's in anonymous volume?
-
-					- <span class="fragment">**Native I/O** performance</span>
-					- <span class="fragment">**Bypass** of the CoW filesystem</span>
-					- <span class="fragment">It creates an entry in `/var/lib/docker`</span>
-					- <span class="fragment">Can be **shared** using `--volumes-from`</span>
-
-				</textarea>
-			</section>
-			<section data-markdown>
-				<textarea data-template>
-					# Declare using the CLI
-
 					```bash
-					docker run -d -v "/uploads" myapp
+					eval $(docker-machine env machinename)
 					```
+
+					It sets the environment variables needed to **connect** to the distant **docker engine**.
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Managing hosts
+
+					- <span class="fragment">Create them when using compatible APIs.</span>
+					- <span class="fragment">Upgrade the Docker engine</span>
+					- <span class="fragment">start/stop/restart</span>
+					- <span class="fragment">SSH</span>
+					- <span class="fragment">SCP</span>
+					- <span class="fragment">SSHFS</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Automatic provisioning is available for
+
+					- <span class="fragment">VirtualBox, VMWare, ...</span>
+					- <span class="fragment">AWS EC2, Azure, Digital Ocean, GCP, ...</span>
+					- <span class="fragment">OpenStack</span>
+
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Generic Driver
+
+					If we have an **existing machine** or a **cloud provider** that is **not supported**, we can use the **generic** machine driver.
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# How it configures a host
+
+					- <span class="fragment">Connects to the host via SSH.</span>
+					- <span class="fragment">Installs docker and configures it.</span>
+					- <span class="fragment">SSHFS</span>
+
 				</textarea>
 			</section>
 			<section data-markdown>
@@ -172,9 +196,9 @@
 				<textarea data-template>
 					# Conclusion
 
-					- <span class="fragment">**Create** and **manage** volumes.</span>
-					- <span class="fragment">**Share** volumes **across containers**.</span>
-					- <span class="fragment">**Share host directories** with containers.</span>
+					- <span class="fragment">Create and manage volume.</span>
+					- <span class="fragment">Share volumes across containers.</span>
+					- <span class="fragment">Share host directories with containers.</span>
 				</textarea>
 			</section>
 		</div>
