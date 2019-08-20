@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Volumes</title>
+	<link rel="icon" href="/enix/favicon.ico">
+	<link rel="icon" type="image/png" sizes="32x32" href="/enix/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/enix/favicon-16x16.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/enix/apple-touch-icon.png">
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/white.css">
+	<link rel="stylesheet" href="lib/css/zenburn.css">
+	<link rel="stylesheet" href="enix/enix.css">
+	<link rel="stylesheet" href="custom.css">
+</head>
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<h1>Volumes</h1>
+				<p>FDI-DOKR Video lesson</p>
+				<img src="resources/enix-etna.jpeg" class="logo etna">
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Goals
+
+					- <span class="fragment">**Understand** volume use cases.</span>
+					- <span class="fragment">**Create** volumes in containers.</span>
+					- <span class="fragment">**Share** volumes **across containers**.</span>
+					- <span class="fragment">**Share** filesystem entries from the **host to containers**.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Declare a volume in a Dockerfile
+
+					```dockerfile
+					VOLUME /uploads
+					```
+
+					<span class="fragment">What does this actually mean for our directory?</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# What's in anonymous volume?
+
+					- <span class="fragment">**Native I/O** performance</span>
+					- <span class="fragment">**Bypass** of the CoW filesystem</span>
+					- <span class="fragment">It creates an entry in `/var/lib/docker`</span>
+					- <span class="fragment">Can be **shared** using `--volumes-from`</span>
+
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Declare using the CLI
+
+					```bash
+					docker run -d -v "/uploads" myapp
+					```
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					*Demo*
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Declare a named volume when running
+
+					```bash
+					docker run -dv "sample:/uploads" myapp
+					```
+
+					<span class="fragment">Host path is considered to be a named volume when it contains no `/`.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# What's a named volume?
+
+					- <span class="fragment">Volumes that **persist** after container removal.</span>
+					- <span class="fragment">They are **easier to share**.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					*Demo*
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Declare a named volume using the CLI
+
+					```bash
+					docker volume create myvolume
+					```
+
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Sharing between host and container
+
+					- <span class="fragment"> If you want to **manage** storage and snapshots yourself. </span>
+					- <span class="fragment"> If you have a **better disk** for performance or resiliency. </span>
+					- <span class="fragment"> If you are using the container for **local development**. </span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# How to create a custom bind-mount?
+
+					```bash
+					docker run -dv "$(pwd)/uploads:/uploads" myapp
+					```
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Volume lifecycle
+
+					- <span class="fragment"> Removing a container **will not** remove its volumes. </span>
+					- <span class="fragment"> "docker volume ls" </span>
+					- <span class="fragment"> Access by using "docker run -v" </span>
+					- <span class="fragment"> "docker volume rm" or "docker system prune" </span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Sharing a single file
+
+					- <span class="fragment">"-v" also **works with files**.</span>
+					- <span class="fragment">It can be useful if you don't need to share a directory.</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Volumes vs Mounts
+
+					- <span class="fragment">Another syntax exists to manipulate data in containers.</span>
+					- <span class="fragment">"--mount"</span>
+					- <span class="fragment">Makes an **explicit difference** between *volumes* and *bind mounts*</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Mount example, host against container
+
+					```
+					docker run \
+					  --mount type=bind,source=/path/on/host,target=/path/in/container \
+					  alpine
+					```
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Mount example, tmpfs
+
+					```
+					docker run \
+					  --mount type=tmpfs,destination=/path/in/container,tmpfs-size=1000000 \
+					  alpine
+					```
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Conclusion
+
+					- <span class="fragment">Create and manage volume.</span>
+					- <span class="fragment">Share volumes across containers.</span>
+					- <span class="fragment">Share host directories with containers.</span>
+				</textarea>
+			</section>
+		</div>
+		<img id="enix-progress-animation" class="enix-progress-animation" src="enix/enix-anim-0.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-1.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-2.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-3.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-4.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-5.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-6.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-7.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-8.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-9.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-10.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-11.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-12.svg">
+		<img class="enix-progress-animation" src="enix/enix-anim-13.svg">
+	</div>
+	<script src="lib/js/head.min.js"></script>
+	<script src="js/reveal.js"></script>
+	<script>
+		Reveal.initialize({
+			history: true,
+			progress: false,
+			dependencies: [
+				{ src: 'plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+				{ src: 'plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+				{ src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
+			]
+		});
+	</script>
+	<script src="enix/enix-anim.js"></script>
+</body>
+</html>
