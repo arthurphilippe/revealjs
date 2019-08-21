@@ -1,11 +1,12 @@
 {
 	"spellright.language": [
-		"en"
+		"en_US"
 	],
 	"spellright.documentTypes": [
 		"markdown",
 		"latex",
 		"plaintext",
 		"html"
-	]
+	],
+	"editor.defaultFormatter": "vscode.html-language-features"
 }

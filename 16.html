@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="UTF-8">
 	<title>Debugging containers</title>
@@ -13,6 +14,7 @@
 	<link rel="stylesheet" href="enix/enix.css">
 	<link rel="stylesheet" href="custom.css">
 </head>
+
 <body>
 	<div class="reveal">
 		<div class="slides">
@@ -45,13 +47,12 @@
 				<textarea data-template>
 					# Accessing processes from the host
 
-					Note: only works on **Linux**.
-
 					```bash
 					ps faux
 					```
 
-					You can then use tools like `lsof`, `strace` or `gdb` to analyse them.
+					- <span class="fragment">Only works on **Linux**.</span>
+					- <span class="fragment">You can then use tools like "lsof", "strace" or "gdb" to analyse them.</span>
 				</textarea>
 			</section>
 			<section data-markdown>
@@ -68,13 +69,13 @@
 				<textarea data-template>
 					# It won't work if
 
-					- <span class="fragment">The tools is **not installed** on the container.</span>
+					- <span class="fragment">The tools are **not installed** on the container.</span>
 					- <span class="fragment">The container has **stopped** or **crashed**.</span>
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Why couldn't we SSH into a crashed container?
+					# Why can we not SSH into a crashed container?
 
 					- <span class="fragment">Crashed containers are **solely storage**.</span>
 					- <span class="fragment">You **cannot SSH** into mass storage.</span>
@@ -86,9 +87,9 @@
 				<textarea data-template>
 					# Accessing the container anyway
 
-					- <span class="fragment">`docker start`?</span>
-					- <span class="fragment">`docker commit your_container_id debugimage`</span>
-					- <span class="fragment">`docker run -it --entrypoint sh debugimage`</span>
+					- <span class="fragment">"docker start"?</span>
+					- <span class="fragment">"docker commit id debugimage"</span>
+					- <span class="fragment">"docker run -it --entrypoint sh debugimage"</span>
 				</textarea>
 			</section>
 			<section data-markdown>
@@ -147,4 +148,5 @@
 	</script>
 	<script src="enix/enix-anim.js"></script>
 </body>
+
 </html>

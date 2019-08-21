@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8" />
-	<title>Logging</title>
+	<title>Limiting resources</title>
 	<link rel="icon" href="/enix/favicon.ico" />
 	<link rel="icon" type="image/png" sizes="32x32" href="/enix/favicon-32x32.png" />
 	<link rel="icon" type="image/png" sizes="16x16" href="/enix/favicon-16x16.png" />
@@ -19,43 +19,54 @@
 	<div class="reveal">
 		<div class="slides">
 			<section>
-				<h1>Logging</h1>
+				<h1>Limiting resources</h1>
 				<p>FDI-DOKR Video lesson</p>
 				<img src="resources/enix-etna.jpeg" class="logo etna" />
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Ways of sending logs
+					# Issue
 
-					- <span class="fragment"> stdout/stderr </span>
-					- <span class="fragment"> local log files (rotated and compressed) </span>
-					- <span class="fragment"> syslog (collected by syslogd or journald) </span>
-					- <span class="fragment"> library that calls a logging service </span>
+					What can you do about containers that use too much of your resources? (CPU, RAM, storage, network, I/O, ...)
+
+					<span class="fragment"> There are a few mechanisms in place just for that! </span>
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					There are all compatible with Docker!
+					# RAM in theory
 
-					<span class="fragment">They all have their pros and cons.</span>
+					When a Linux machine runs out of memory:
+
+					- Swap is used
+					- The out-of-memory killer is invoked
+					- It uses heuristics to kill a process
+
+					The same goes for a container!
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Logging on the standard outputs
+					# Limiting memory on a container
 
-					- <span class="fragment">Logs written will be collected by the engine.</span>
-					- <span class="fragment">The engine will save them by default.</span>
-					- <span class="fragment">It can also pass them to a log service...</span>
-					- <span class="fragment">... using a driver.</span>
+					```
+					# Will kill the container at 100m of memory used w/o allowing swap
+					docker run -ti --memory 100m --memory-swap 100m python
+
+					# Will kill the container at 100m of memory + 50m of swap used
+					docker run -ti --memory 100m --memory-swap 150m python
+
+					# WIll start to swap at 100m, will trigger OOM when swap is full
+					docker run -ti --memory 100m python
+					```
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Logging drivers examples
+					# Picking a strategy
 
-					- <span class="fragment">json-file (default)</span>
-					- <span class="fragment">syslog</span>
+					- <span class="fragment">Killing a database might result in data loss or corruption.</span>
+					- <span class="fragment">That's why they should be monitored and allowed swap.</span>
 					- <span class="fragment">journald</span>
 					- <span class="fragment">gelf</span>
 					- <span class="fragment">fluentd</span>
@@ -75,28 +86,60 @@
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Logging using files
+					# Limiting CPU usage
 
-					- <span class="fragment">Can be cumbersome to access.</span>
-					- <span class="fragment">Logs will be lost after container deletion.</span>
-					- <span class="fragment">Can be kept using a volume.</span>
-					- <span class="fragment">Can be sent to a logging service.</span>
-
+					- <span class="fragment">Relative priority: "--cpu-shares"</span>
+					- <span class="fragment">CPU%: "--cpu"</span>
+					- <span class="fragment">Allowing access to specific CPUs: "--cpuset-cpus"</span>
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					# Logging using syslog
+					# Relative priority setting
 
-					- <span class="fragment">Syslog daemon that can forward logs or create log files.</span>
-					- <span class="fragment">Rebind the syslog socket using a volume and have another program collect the logs.</span>
+					- <span class="fragment">Default is 1024</span>
+					- <span class="fragment">Has no effect till the CPU is not maxed out.</span>
+					- <span class="fragment">If you double the priority, your container will receive twice as much cycles as it would have on default.</span>
 				</textarea>
 			</section>
 			<section data-markdown>
 				<textarea data-template>
-					*Demo*
+					# CPU% limit setting
+
+					- <span class="fragment">"--cpus 0.1" to allow 10% of a core</span>
+					- <span class="fragment">"--cpus 1" to allow an entire core</span>
+					- <span class="fragment">"--cpus 42" to allow usage of 42 entire cores</span>
 				</textarea>
 			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# CPU bunch setting
+
+					- <span class="fragment">"--cpuset-cpu 0"</span>
+					- <span class="fragment">"--cpuset-cpu 2,5,7"</span>
+					- <span class="fragment">"--cpuset-cpu 0-3,8-11"</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Storage limitation
+
+					- <span class="fragment">Not supported by a lot of drivers.</span>
+					- <span class="fragment">A container could exhaust space on your system disk.</span>
+					- <span class="fragment">Volumes, object stores and log collection should be enough to avoid exhaustion.</span>
+					- <span class="fragment">"docker ps -s"</span>
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					# Conclusion
+
+					- <span class="fragment">You can easily limit memory and CPU if need be.</span>
+					- <span class="fragment">Before setting a memory limit, ensure that it safe for your app.</span>
+					- <span class="fragment">You should remain careful with your disk use.</span>
+				</textarea>
+			</section>
+
 		</div>
 		<img id="enix-progress-animation" class="enix-progress-animation" src="enix/enix-anim-0.svg" />
 		<img class="enix-progress-animation" src="enix/enix-anim-1.svg" />
